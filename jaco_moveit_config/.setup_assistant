@@ -5,4 +5,4 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/jaco.srdf
   CONFIG:
-    generated_timestamp: 1409665532
+    generated_timestamp: 1458858624
