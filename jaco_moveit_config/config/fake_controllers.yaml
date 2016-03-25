@@ -6,3 +6,6 @@ controller_list:
       - jaco_joint_3
       - jaco_joint_4
       - jaco_joint_5
+  - name: fake_fake_gripper_controller
+    joints:
+      - jaco_joint_5
