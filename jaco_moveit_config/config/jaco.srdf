@@ -40,7 +40,7 @@
         <joint name="jaco_joint_5" value="3.044" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="final_link" parent_link="jaco_link_5" group="manipulator" parent_group="manipulator" />
+    <end_effector name="final_link" parent_link="jaco_link_5" group="manipulator" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="jaco_link_1" link2="jaco_link_2" reason="Adjacent" />
     <disable_collisions link1="jaco_link_1" link2="jaco_link_3" reason="Never" />
