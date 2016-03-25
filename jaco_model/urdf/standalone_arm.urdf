@@ -4,66 +4,6 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="jaco" xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz" xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint" xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model" xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics" xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable" xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <!--
-  <property name="link_hand_link_data">
-      <link_data>
-            <collision>
-                <origin rpy="0 0 0" xyz="0 0 -${0.035/2}" />
-                <geometry>
-                    <cylinder length="0.035" radius="0.032" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="-0.05 0.45 0" xyz="-0.022 0 -0.06" />
-                <geometry>
-                    <cylinder length="0.09" radius="0.035" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="-0.05 0.45 0" xyz="-0.022 0 -0.06" />
-                <geometry>
-                    <cylinder length="0.11" radius="0.02" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="-0.25 -0.45 0" xyz="0.018 -0.014 -0.06" />
-                <geometry>
-                    <cylinder length="0.09" radius="0.034" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="-0.25 -0.45 0" xyz="0.018 -0.014 -0.06" />
-                <geometry>
-                    <cylinder length="0.11" radius="0.02" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="0.25 -0.45 0" xyz="0.018 0.014 -0.06" />
-                <geometry>
-                    <cylinder length="0.09" radius="0.034" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="0.25 -0.45 0" xyz="0.018 0.014 -0.06" />
-                <geometry>
-                    <cylinder length="0.11" radius="0.02" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="0 -0.45 0" xyz="0.052 0 -0.055" />
-                <geometry>
-                    <box size="0.01 0.03 0.07" />
-                </geometry>
-            </collision>
-            <collision>
-                <origin rpy="0 ${J_PI/2.0-0.2} -0.03" xyz="-0.005 0 -0.065" />
-                <geometry>
-                    <cylinder length="0.02" radius="0.04" />
-                </geometry>
-            </collision>
-        </link_data>
-  </property>
--->
   <link name="root">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -372,14 +312,4 @@
         </joint>
         <link name="${link_end_effector}" />
 	-->
-  <!--
-    <xacro:jaco_link link_name="${link_finger_1}"><xacro:insert_block name="finger_link_data" /></xacro:jaco_link>
-    <xacro:jaco_finger_joint joint_name="${joint_finger_1}" type="revolute" parent="${link_hand}" child="${link_finger_1}" joint_axis_xyz="${joint_finger_1_axis_xyz}" joint_origin_xyz="${joint_finger_1_origin_xyz}" joint_origin_rpy="${joint_finger_1_origin_rpy}" lower_limit="${joint_finger_1_lower_limit}" upper_limit="${joint_finger_1_upper_limit}"/>
-
-    <xacro:jaco_link link_name="${link_finger_2}"><xacro:insert_block name="finger_link_data" /></xacro:jaco_link>
-    <xacro:jaco_finger_joint joint_name="${joint_finger_2}" type="revolute" parent="${link_hand}" child="${link_finger_2}" joint_axis_xyz="${joint_finger_2_axis_xyz}" joint_origin_xyz="${joint_finger_2_origin_xyz}" joint_origin_rpy="${joint_finger_2_origin_rpy}" lower_limit="${joint_finger_2_lower_limit}" upper_limit="${joint_finger_2_upper_limit}"/>
-
-    <xacro:jaco_link link_name="${link_finger_3}"><xacro:insert_block name="finger_link_data" /></xacro:jaco_link>
-    <xacro:jaco_finger_joint joint_name="${joint_finger_3}" type="revolute" parent="${link_hand}" child="${link_finger_3}" joint_axis_xyz="${joint_finger_3_axis_xyz}" joint_origin_xyz="${joint_finger_3_origin_xyz}" joint_origin_rpy="${joint_finger_3_origin_rpy}" lower_limit="${joint_finger_3_lower_limit}" upper_limit="${joint_finger_3_upper_limit}"/>
--->
 </robot>
