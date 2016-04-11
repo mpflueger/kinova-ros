@@ -43,7 +43,7 @@ namespace jaco
 // Maximum number of joints on Jaco-like robots:
 //static const int     JACO_JOINTS_COUNT = 9;
 //Fingers removed
-static const int     JACO_JOINTS_COUNT = 5;
+static const int     JACO_JOINTS_COUNT = 6;
 
 class JacoArm
 {
