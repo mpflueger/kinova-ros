@@ -4,7 +4,7 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="jaco" xmlns:body="http://playerstage.sourceforge.net/gazebo/xmlschema/#body" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:gazebo="http://playerstage.sourceforge.net/gazebo/xmlschema/#gz" xmlns:geom="http://playerstage.sourceforge.net/gazebo/xmlschema/#geom" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:joint="http://playerstage.sourceforge.net/gazebo/xmlschema/#joint" xmlns:model="http://playerstage.sourceforge.net/gazebo/xmlschema/#model" xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics" xmlns:renderable="http://playerstage.sourceforge.net/gazebo/xmlschema/#renderable" xmlns:rendering="http://playerstage.sourceforge.net/gazebo/xmlschema/#rendering" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <link name="jaco_api_origin">
+  <link name="root">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -31,15 +31,23 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.076"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_base.dae"/>
+        <cylinder length="0.154" radius="0.042"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.038 0.084"/>
+      <geometry>
+        <box size="0.051 0.011 0.038"/>
       </geometry>
     </collision>
   </link>
   <joint name="jaco_joint_base" type="fixed">
-    <parent link="jaco_api_origin"/>
+    <parent link="root"/>
     <child link="jaco_link_base"/>
     <axis xyz="0 0 0"/>
+    <limit effort="30" lower="0" upper="0" velocity="0.35"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
   <link name="jaco_link_1">
@@ -52,17 +60,36 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.02"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_1.dae"/>
+        <cylinder length="0.04" radius="0.042"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="1.57079632679 0 0" xyz="0 0.01975 -0.11925"/>
+      <geometry>
+        <cylinder length="0.045" radius="0.0395"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="1.57079632679 0 0" xyz="0 0.04375 -0.11925"/>
+      <geometry>
+        <cylinder length="0.004" radius="0.02"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0.06 0 0" xyz="0 0.031 -0.07875"/>
+      <geometry>
+        <box size="0.079 0.027 0.080"/>
       </geometry>
     </collision>
   </link>
-  <joint name="jaco_joint_1" type="revolute">
+  <joint name="jaco_joint_1" type="continuous">
     <parent link="jaco_link_base"/>
     <child link="jaco_link_1"/>
     <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-6.28318530718" upper="6.28318530718" velocity="0.35"/>
     <origin rpy="3.14159265359 0 3.14159265359" xyz="0 0 0.1535"/>
-    <limit effort="30" lower="-3.14159265359" upper="3.14159265359" velocity="0.83"/>
   </joint>
   <link name="jaco_link_2">
     <visual>
@@ -74,8 +101,21 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.027"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_2.dae"/>
+        <cylinder length="0.056" radius="0.041"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.411 0 -0.027"/>
+      <geometry>
+        <cylinder length="0.056" radius="0.0395"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.2055 0 -0.040"/>
+      <geometry>
+        <box size="0.411 0.082 0.027"/>
       </geometry>
     </collision>
   </link>
@@ -83,8 +123,8 @@
     <parent link="jaco_link_1"/>
     <child link="jaco_link_2"/>
     <axis xyz="0 0 1"/>
+    <limit effort="30" lower="-3.14159265359" upper="0.0" velocity="0.35"/>
     <origin rpy="-1.57079632679 3.14159265359 0" xyz="0 0 -0.1185"/>
-    <limit effort="30" lower="-3.89208423195" upper="0.75049157835" velocity="0.83"/>
   </joint>
   <link name="jaco_link_3">
     <visual>
@@ -96,8 +136,63 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0225"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_3.dae"/>
+        <cylinder length="0.045" radius="0.041"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 1.57079632679 0" xyz="0.187 0 -0.012"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.032"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.02 0" xyz="0.105 0 -0.040"/>
+      <geometry>
+        <box size="0.2 0.03 0.01"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.025 0" xyz="0.105 0 -0.035"/>
+      <geometry>
+        <box size="0.2 0.053 0.01"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.03 0" xyz="0.105 0 -0.025"/>
+      <geometry>
+        <box size="0.2 0.066 0.02"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.04 0" xyz="0.105 0 -0.025"/>
+      <geometry>
+        <box size="0.2 0.066 0.02"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.16 0" xyz="0.105 0 -0.013"/>
+      <geometry>
+        <box size="0.18 0.05 0.018"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.20 0" xyz="0.105 0 -0.009"/>
+      <geometry>
+        <box size="0.18 0.03 0.016"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.18 0" xyz="0.07 0 -0.025"/>
+      <geometry>
+        <box size="0.13 0.084 0.02"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.18 0" xyz="0.09 0 -0.025"/>
+      <geometry>
+        <box size="0.15 0.072 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -105,8 +200,8 @@
     <parent link="jaco_link_2"/>
     <child link="jaco_link_3"/>
     <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-3.92699081699" upper="0.785398163397" velocity="0.35"/>
     <origin rpy="3.14159265359 0 1.57079632679" xyz="0.41 0 0"/>
-    <limit effort="30" lower="-4.38077642251" upper="1.23918376892" velocity="0.83"/>
   </joint>
   <link name="jaco_link_4">
     <visual>
@@ -118,17 +213,30 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0225"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_4.dae"/>
+        <cylinder length="0.045" radius="0.032"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.472699081699 0" xyz="0.008 0 -0.04125"/>
+      <geometry>
+        <cylinder length="0.030" radius="0.036"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.945398163397 0" xyz="0.017 0 -0.0525"/>
+      <geometry>
+        <cylinder length="0.045" radius="0.032"/>
       </geometry>
     </collision>
   </link>
-  <joint name="jaco_joint_4" type="revolute">
+  <joint name="jaco_joint_4" type="continuous">
     <parent link="jaco_link_3"/>
     <child link="jaco_link_4"/>
     <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-6.28318530718" upper="6.28318530718" velocity="0.35"/>
     <origin rpy="3.14159265359 1.57079632679 0" xyz="0.207 0 -0.01125"/>
-    <limit effort="30" lower="-3.14159265359" upper="3.14159265359" velocity="0.83"/>
   </joint>
   <link name="jaco_link_5">
     <visual>
@@ -140,105 +248,68 @@
       </material>
     </visual>
     <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0225"/>
       <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_5.dae"/>
+        <cylinder length="0.045" radius="0.032"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.472699081699 0" xyz="0.008 0 -0.04125"/>
+      <geometry>
+        <cylinder length="0.030" radius="0.036"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 -0.945398163397 0" xyz="0.017 0 -0.0525"/>
+      <geometry>
+        <cylinder length="0.045" radius="0.032"/>
       </geometry>
     </collision>
   </link>
-  <joint name="jaco_joint_5" type="revolute">
+  <joint name="jaco_joint_5" type="continuous">
     <parent link="jaco_link_4"/>
     <child link="jaco_link_5"/>
     <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-6.28318530718" upper="6.28318530718" velocity="0.35"/>
     <origin rpy="0 -0.959931088597 0" xyz="0.0343 0 -0.06588"/>
-    <limit effort="30" lower="-3.14159265359" upper="3.14159265359" velocity="0.83"/>
   </joint>
-  <link name="jaco_link_hand">
-    <visual>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_hand.dae"/>
-      </geometry>
-      <material name="carbon_fiber">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_hand.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="jaco_joint_6" type="revolute">
-    <parent link="jaco_link_5"/>
-    <child link="jaco_link_hand"/>
-    <axis xyz="0 0 -1"/>
-    <origin rpy="-0.959931088597 0 1.57079632679" xyz="0.0343 0 -0.06588"/>
-    <limit effort="30" lower="-1.74532925199" upper="4.53785605519" velocity="0.83"/>
-  </joint>
-  <link name="jaco_link_finger_1">
-    <visual>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_1.dae"/>
-      </geometry>
-      <material name="carbon_fiber">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_1.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="jaco_joint_finger_1" type="revolute">
-    <parent link="jaco_link_hand"/>
-    <child link="jaco_link_finger_1"/>
-    <axis xyz="0 0 1"/>
-    <origin rpy="-1.7983 1.117 3.1416" xyz="-0.03978 0 -0.10071"/>
-    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
-  </joint>
-  <link name="jaco_link_finger_2">
-    <visual>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_2.dae"/>
-      </geometry>
-      <material name="carbon_fiber">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_2.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="jaco_joint_finger_2" type="revolute">
-    <parent link="jaco_link_hand"/>
-    <child link="jaco_link_finger_2"/>
-    <axis xyz="0 0 1"/>
-    <origin rpy="-1.6222 1.117 -0.23615" xyz="0.03569 -0.0216 -0.10071"/>
-    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
-  </joint>
-  <link name="jaco_link_finger_3">
-    <visual>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_3.dae"/>
-      </geometry>
-      <material name="carbon_fiber">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://jaco_model/meshes/jaco_link_finger_3.dae"/>
-      </geometry>
-    </collision>
-  </link>
-  <joint name="jaco_joint_finger_3" type="revolute">
-    <parent link="jaco_link_hand"/>
-    <child link="jaco_link_finger_3"/>
-    <axis xyz="0 0 1"/>
-    <origin rpy="-1.5161 1.1459 0.23978" xyz="0.03569 0.0216 -0.10071"/>
-    <limit effort="30" lower="0" upper="0.698131700798" velocity="5"/>
-  </joint>
-</robot>
+  <!--
+        <xacro:jaco_link link_name="${link_hand}">
+            <xacro:insert_block name="link_hand_link_data" />
+        </xacro:jaco_link>
+	-->
+  <!--
+        <xacro:jaco_joint joint_name="${joint_6}" type="continuous" parent="${link_5}" child="${link_hand}" joint_axis_xyz="${joint_6_axis_xyz}" joint_origin_xyz="${joint_6_origin_xyz}" joint_origin_rpy="${joint_6_origin_rpy}" joint_lower_limit="${joint_6_lower_limit}" joint_upper_limit="${joint_6_upper_limit}"/>
+	-->
+  <!--
+       <joint name="${link_base}_to_api_origin" type="fixed">
+         <parent link="${link_base}"/>
+         <child link="${api_origin}"/>
+         <origin xyz="0 0 ${api_offset}" rpy="0 0 0" />
+       </joint>
+	-->
+  <!--
+       <link name="${api_origin}">
 
+         <visual>
+           <geometry>
+             <box xyz="0 0 0" size="0.1 0.1 0.1"/>
+           </geometry>
+         </visual>
+         <collision>
+           <geometry>
+             <box xyz="0 0 0" size="0.1 0.1 0.1"/>
+           </geometry>
+         </collision>
+
+        </link>
+	-->
+  <!--
+        <joint name="${link_hand}_to_end_effector" type="fixed">
+          <parent link="${link_hand}"/>
+          <child link="${link_end_effector}"/>
+          <origin xyz="0 0 -${end_effector_offset}" rpy="0 ${J_PI} 0" />
+        </joint>
+        <link name="${link_end_effector}" />
+	-->
+</robot>
