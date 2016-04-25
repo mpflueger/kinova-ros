@@ -66,6 +66,7 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     tool_position_publisher_ = node_handle_.advertise<geometry_msgs::PoseStamped>("out/tool_position", 2);
     tool_wrench_publisher_ = node_handle_.advertise<geometry_msgs::WrenchStamped>("out/tool_wrench", 2);
     finger_position_publisher_ = node_handle_.advertise<jaco_msgs::FingerPosition>("out/finger_position", 2);
+    force_angular_publisher_ = node_handle_.advertise<jaco_msgs::JointAngles>("out/forces_angular", 2);
     force_angular_gravity_free_publisher_ = node_handle_.advertise<jaco_msgs::JointAngles>("out/forces_angular_gf", 2);
     force_cartesian_publisher_ = node_handle_.advertise<geometry_msgs::PoseStamped>("out/forces_cartesian", 2);
     forces_info_publisher_ = node_handle_.advertise<geometry_msgs::WrenchStamped>("out/forces_info", 2);
@@ -407,6 +408,17 @@ void JacoArm::publishJointAngles(void)
 
 void JacoArm::publishForces(void)
 {
+    JacoAngles current_torques;
+    jaco_comm_.getJointTorques(current_torques);
+    jaco_msgs::JointAngles jaco_torques = current_torques.constructAnglesMsg();
+
+    jaco_torques.joint1 = current_torques.Actuator1;
+    jaco_torques.joint2 = current_torques.Actuator2;
+    jaco_torques.joint3 = current_torques.Actuator3;
+    jaco_torques.joint4 = current_torques.Actuator4;
+    jaco_torques.joint5 = current_torques.Actuator5;
+    jaco_torques.joint6 = current_torques.Actuator6;
+
     JacoAngles current_forces;
     jaco_comm_.getForceAngularGravityFree(current_forces);
     jaco_msgs::JointAngles jaco_forces = current_forces.constructAnglesMsg();
@@ -439,6 +451,7 @@ void JacoArm::publishForces(void)
     wrench_forces.header.stamp = ros::Time().now();
     wrench_forces.header.frame_id = "jaco_link_hand";
 
+    force_angular_publisher_.publish(jaco_torques);
     force_angular_gravity_free_publisher_.publish(jaco_forces);
     force_cartesian_publisher_.publish(cartesian_force);
     forces_info_publisher_.publish(wrench_forces);
