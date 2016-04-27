@@ -690,7 +690,12 @@ void JacoComm::getJointTorques(JacoAngles &tqs)
         throw JacoCommException("Could not get the joint torques", result);
     }
 
-    tqs = JacoAngles(jaco_tqs.Actuators);
+    tqs.Actuator1 = jaco_tqs.Actuators.Actuator1;
+    tqs.Actuator2 = jaco_tqs.Actuators.Actuator2;
+    tqs.Actuator3 = jaco_tqs.Actuators.Actuator3;
+    tqs.Actuator4 = jaco_tqs.Actuators.Actuator4;
+    tqs.Actuator5 = jaco_tqs.Actuators.Actuator5;
+    tqs.Actuator6 = jaco_tqs.Actuators.Actuator6;
 }
 /*!
  * \brief API call to obtain the current cartesian position of the arm.
