@@ -87,7 +87,8 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
 
     // Approximative conversion ratio from finger position (0..6000) to joint angle 
     // in radians (0..0.7).
-    node_handle_.param("finger_angle_conv_ratio", finger_conv_ratio_, 0.7 / 5000.0);
+    //node_handle_.param("finger_angle_conv_ratio", finger_conv_ratio_, 0.7 / 5000.0);
+    finger_conv_ratio_ = 0.7 / 5000.0;
 
     // Depending on the API version, the arm might return velocities in the
     // 0..360 range (0..180 for positive values, 181..360 for negative ones).
@@ -120,7 +121,6 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     cartesian_vel_timer_flag_ = false;
 
     ROS_INFO("The arm is ready to use.");
-
 
 }
 
@@ -507,18 +507,12 @@ void JacoArm::publishFingerPosition(void)
     FingerAngles fingers;
     jaco_comm_.getFingerPositions(fingers);
 
-    //Conversion from the native "u" to rad according to the static constants defined in jaco_arm.h
-    double raw_angle_value;
-    double raw2rad =(MAX_JACO_HAND_RAD_VALUE - MIN_JACO_HAND_RAD_VALUE) / (MAX_JACO_HAND_RAW_VALUE - MIN_JACO_HAND_RAW_VALUE);
+    // Approximative conversion ratio from finger position (0..6000) to joint angle 
+    // in radians (0..0.7).
 
-    raw_angle_value = fingers.Finger1;
-
-    if (raw_angle_value < MIN_JACO_HAND_RAW_VALUE)
-        raw_angle_value = MIN_JACO_HAND_RAW_VALUE;
-    else if (raw_angle_value < MAX_JACO_HAND_RAW_VALUE)
-        raw_angle_value = MAX_JACO_HAND_RAW_VALUE;
-
-    fingers.Finger1 = MIN_JACO_HAND_RAD_VALUE + fingers.Finger1 * raw2rad;
+    fingers.Finger1 = finger_conv_ratio_ * fingers.Finger1;
+    fingers.Finger2 = finger_conv_ratio_ * fingers.Finger2;
+    fingers.Finger3 = finger_conv_ratio_ * fingers.Finger3;
 
     finger_position_publisher_.publish(fingers.constructFingersMsg());
 }
