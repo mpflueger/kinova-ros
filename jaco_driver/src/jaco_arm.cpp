@@ -370,6 +370,7 @@ void JacoArm::publishJointAngles(void)
         convertKinDeg(joint_state.velocity);
     }
 
+    //TODO: Add velocity
     // No velocity for the fingers:
     joint_state.velocity[6] = 0.0;
     joint_state.velocity[7] = 0.0;
