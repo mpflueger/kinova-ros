@@ -42,11 +42,8 @@ namespace jaco
 
 // Maximum number of joints on Jaco-like robots:
 static const int     JACO_JOINTS_COUNT = 9;
-<<<<<<< HEAD
-=======
 //Fingers removed
 //static const int     JACO_JOINTS_COUNT = 6;
->>>>>>> 1402e6d... Included fingers angle (expressed in rad) to out/joint_stauts. TO DO: add velocity
 
 class JacoArm
 {
@@ -97,6 +94,7 @@ class JacoArm
     ros::Publisher force_angular_gravity_free_publisher_;
     ros::Publisher force_cartesian_publisher_;
     ros::Publisher forces_info_publisher_;
+    ros::Publisher finger_current_publisher_;
 
     ros::ServiceServer stop_service_;
     ros::ServiceServer start_service_;

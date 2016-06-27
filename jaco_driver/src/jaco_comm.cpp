@@ -697,6 +697,30 @@ void JacoComm::getJointTorques(JacoAngles &tqs)
     tqs.Actuator5 = jaco_tqs.Actuators.Actuator5;
     tqs.Actuator6 = jaco_tqs.Actuators.Actuator6;
 }
+
+void JacoComm::getJointCurrent(JacoAngles &curr_jaco, FingerAngles &curr_finger)
+{
+    boost::recursive_mutex::scoped_lock lock(api_mutex_);
+    AngularPosition jaco_curr;
+    memset(&jaco_curr, 0, sizeof(jaco_curr));  // zero structure
+
+    int result = jaco_api_.getAngularCurrent(jaco_curr);
+    if (result != NO_ERROR_KINOVA)
+    {
+        throw JacoCommException("Could not get the joint current values", result);
+    }
+
+    curr_jaco.Actuator1 = jaco_curr.Actuators.Actuator1;
+    curr_jaco.Actuator2 = jaco_curr.Actuators.Actuator2;
+    curr_jaco.Actuator3 = jaco_curr.Actuators.Actuator3;
+    curr_jaco.Actuator4 = jaco_curr.Actuators.Actuator4;
+    curr_jaco.Actuator5 = jaco_curr.Actuators.Actuator5;
+    curr_jaco.Actuator6 = jaco_curr.Actuators.Actuator6;
+    curr_finger.Finger1 = jaco_curr.Fingers.Finger1;
+    curr_finger.Finger2 = jaco_curr.Fingers.Finger2;
+    curr_finger.Finger3 = jaco_curr.Fingers.Finger3;
+}
+
 /*!
  * \brief API call to obtain the current cartesian position of the arm.
  */

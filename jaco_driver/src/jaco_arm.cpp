@@ -12,6 +12,7 @@
 
 #define PI 3.14159265359
 
+#define ARVIZ_CORRECTION true
 
 namespace 
 {
@@ -70,6 +71,7 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
     force_angular_gravity_free_publisher_ = node_handle_.advertise<jaco_msgs::JointAngles>("out/forces_angular_gf", 2);
     force_cartesian_publisher_ = node_handle_.advertise<geometry_msgs::PoseStamped>("out/forces_cartesian", 2);
     forces_info_publisher_ = node_handle_.advertise<geometry_msgs::WrenchStamped>("out/forces_info", 2);
+    finger_current_publisher_ = node_handle_.advertise<jaco_msgs::FingerPosition>("out/finger_current", 2);
 
     /* Set up Subscribers*/
     joint_velocity_subscriber_ = node_handle_.subscribe("in/joint_velocity", 1,
@@ -342,9 +344,18 @@ void JacoArm::publishJointAngles(void)
     joint_state.position[3] = (180-jaco_angles.joint4) * (PI / 180);
     joint_state.position[4] = (180-jaco_angles.joint5) * (PI / 180);
     joint_state.position[5] = (270-jaco_angles.joint6) * (PI / 180);
-    joint_state.position[6] = finger_conv_ratio_ * fingers.Finger1;
-    joint_state.position[7] = finger_conv_ratio_ * fingers.Finger2;
-    joint_state.position[8] = finger_conv_ratio_ * fingers.Finger3;
+
+    if(ARVIZ_CORRECTION)
+    {
+        joint_state.position[8] = finger_conv_ratio_ * fingers.Finger1 * 0.93;
+        joint_state.position[6] = finger_conv_ratio_ * fingers.Finger2 * 0.93;
+        joint_state.position[7] = finger_conv_ratio_ * fingers.Finger3 * 0.93;
+    }else{
+        joint_state.position[6] = finger_conv_ratio_ * fingers.Finger1;
+        joint_state.position[7] = finger_conv_ratio_ * fingers.Finger2;
+        joint_state.position[8] = finger_conv_ratio_ * fingers.Finger3;
+    }
+
 
     // Joint velocities
     JacoAngles current_vels;
@@ -386,6 +397,7 @@ void JacoArm::publishJointAngles(void)
     joint_state.effort[3] = joint_tqs.Actuator4;
     joint_state.effort[4] = joint_tqs.Actuator5;
     joint_state.effort[5] = joint_tqs.Actuator6;
+
     joint_state.effort[6] = 0.0;
     joint_state.effort[7] = 0.0;
     joint_state.effort[8] = 0.0;
@@ -399,8 +411,13 @@ void JacoArm::publishJointAngles(void)
                        joint_state.effort[4],
                        joint_state.effort[5]);
 
+    JacoAngles jaco_curr;
+    FingerAngles finger_curr;
+    jaco_comm_.getJointCurrent(jaco_curr,finger_curr);
+
     joint_angles_publisher_.publish(jaco_angles);
     joint_state_publisher_.publish(joint_state);
+    finger_current_publisher_.publish(finger_curr.constructFingersMsg());
 }
 
 /*!
@@ -510,10 +527,13 @@ void JacoArm::publishFingerPosition(void)
 
     // Approximative conversion ratio from finger position (0..6000) to joint angle 
     // in radians (0..0.7).
+    //fingers.Finger1 = finger_conv_ratio_ * fingers.Finger1;
+    //fingers.Finger2 = finger_conv_ratio_ * fingers.Finger2;
+    //fingers.Finger3 = finger_conv_ratio_ * fingers.Finger3;
 
-    fingers.Finger1 = finger_conv_ratio_ * fingers.Finger1;
-    fingers.Finger2 = finger_conv_ratio_ * fingers.Finger2;
-    fingers.Finger3 = finger_conv_ratio_ * fingers.Finger3;
+    fingers.Finger1 = fingers.Finger1;
+    fingers.Finger2 = fingers.Finger2;
+    fingers.Finger3 = fingers.Finger3;
 
     finger_position_publisher_.publish(fingers.constructFingersMsg());
 }
