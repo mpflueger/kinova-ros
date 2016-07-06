@@ -12,7 +12,7 @@
 
 #define PI 3.14159265359
 
-#define ARVIZ_CORRECTION true
+#define ARVIZ_CORRECTION
 
 namespace 
 {
@@ -89,8 +89,7 @@ JacoArm::JacoArm(JacoComm &arm, const ros::NodeHandle &nodeHandle)
 
     // Approximative conversion ratio from finger position (0..6000) to joint angle 
     // in radians (0..0.7).
-    //node_handle_.param("finger_angle_conv_ratio", finger_conv_ratio_, 0.7 / 5000.0);
-    finger_conv_ratio_ = 0.7 / 5000.0;
+    node_handle_.param("finger_angle_conv_ratio", finger_conv_ratio_, 0.7 / 5000.0);
 
     // Depending on the API version, the arm might return velocities in the
     // 0..360 range (0..180 for positive values, 181..360 for negative ones).
@@ -345,16 +344,15 @@ void JacoArm::publishJointAngles(void)
     joint_state.position[4] = (180-jaco_angles.joint5) * (PI / 180);
     joint_state.position[5] = (270-jaco_angles.joint6) * (PI / 180);
 
-    if(ARVIZ_CORRECTION)
-    {
+    #ifdef ARVIZ_CORRECTION
         joint_state.position[8] = finger_conv_ratio_ * fingers.Finger1 * 0.93;
         joint_state.position[6] = finger_conv_ratio_ * fingers.Finger2 * 0.93;
         joint_state.position[7] = finger_conv_ratio_ * fingers.Finger3 * 0.93;
-    }else{
+    #else
         joint_state.position[6] = finger_conv_ratio_ * fingers.Finger1;
         joint_state.position[7] = finger_conv_ratio_ * fingers.Finger2;
         joint_state.position[8] = finger_conv_ratio_ * fingers.Finger3;
-    }
+    #endif
 
 
     // Joint velocities
