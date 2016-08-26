@@ -1,12 +1,15 @@
 <launch>
 
   <arg name="use_urdf" default="false"/>
+  <arg name="control_sample_time" default="0.001"/>
 
   <node name="jaco_arm_driver" pkg="jaco_driver" type="jaco_arm_driver" output="screen" cwd="node">
     <!-- Set this parameter to use a specific arm on your system    --> 
     <!-- <param name="serial_number" value="PJ00000001030703130" /> -->
     <param name="tf_prefix" value="jaco_"/>
     <param name="finger_angle_conv_ratio" value="0.000140"/>
+    <param name="cartesian_vel_timeout" value="$(arg control_sample_time)"/>
+    <param name="status_interval_seconds" value="$(arg control_sample_time)"/>
   </node>
 
   <group unless="$(arg use_urdf)">
